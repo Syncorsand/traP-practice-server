@@ -23,11 +23,16 @@ func main() {
 	// 	return c.String(http.StatusOK, "Hello,World\n")
 	// })
 
-	e.POST("/post", postHandler)
+	e.POST("/hello/:name", helloHandler)
 
 	// e.GET("/json", jsonHandler)
 
 	e.Start(":8080")
+}
+
+func helloHandler(c echo.Context) error {
+	name := c.Param("name")
+	return c.String(http.StatusOK, "Hello, "+name+".\n")
 }
 
 // func jsonHandler(c echo.Context) error {
@@ -40,15 +45,15 @@ func main() {
 // 	return c.JSON(http.StatusOK, &res)
 // }
 
-func postHandler(c echo.Context) error {
-	data := jsonData{
-		Number: 30,
-		String: "huge",
-		Bool:   true,
-	}
+// func postHandler(c echo.Context) error {
+// 	data := jsonData{
+// 		Number: 30,
+// 		String: "huge",
+// 		Bool:   true,
+// 	}
 
-	if err := c.Bind(&data); err != nil {
-		return c.JSON(http.StatusBadRequest, data)
-	}
-	return c.JSON(http.StatusOK, data)
-}
+// 	if err := c.Bind(&data); err != nil {
+// 		return c.JSON(http.StatusBadRequest, data)
+// 	}
+// 	return c.JSON(http.StatusOK, data)
+// }
