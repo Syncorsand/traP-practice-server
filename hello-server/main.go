@@ -13,9 +13,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.POST("/hello/:name", helloHandler)
-
-	// e.GET("/json", jsonHandler)
+	e.GET("/hello/:name", helloHandler)
 
 	e.Start(":8080")
 }
