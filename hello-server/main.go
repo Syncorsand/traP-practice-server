@@ -19,21 +19,36 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello,World\n")
-	})
+	// e.GET("/hello", func(c echo.Context) error {
+	// 	return c.String(http.StatusOK, "Hello,World\n")
+	// })
 
-	e.GET("/json", jsonHandler)
+	e.POST("/post", postHandler)
+
+	// e.GET("/json", jsonHandler)
 
 	e.Start(":8080")
 }
 
-func jsonHandler(c echo.Context) error {
-	res := jsonData{
-		Number: 10,
-		String: "hoge",
-		Bool:   false,
+// func jsonHandler(c echo.Context) error {
+// 	res := jsonData{
+// 		Number: 10,
+// 		String: "hoge",
+// 		Bool:   false,
+// 	}
+
+// 	return c.JSON(http.StatusOK, &res)
+// }
+
+func postHandler(c echo.Context) error {
+	data := jsonData{
+		Number: 30,
+		String: "huge",
+		Bool:   true,
 	}
 
-	return c.JSON(http.StatusOK, &res)
+	if err := c.Bind(&data); err != nil {
+		return c.JSON(http.StatusBadRequest, data)
+	}
+	return c.JSON(http.StatusOK, data)
 }
