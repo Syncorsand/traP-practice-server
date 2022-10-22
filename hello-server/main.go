@@ -13,9 +13,14 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/hello/:name", helloHandler)
+	e.GET("/ping", pingPongHandler)
 
+	e.GET("/hello/:name", helloHandler)
 	e.Start(":8080")
+}
+
+func pingPongHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "pong")
 }
 
 func helloHandler(c echo.Context) error {
